@@ -1,0 +1,156 @@
+# https://kubernetes.io/blog/2019/03/15/kubernetes-setup-using-ansible-and-vagrant/
+# https://github.com/virtualelephant/vsphere-kubernetes/blob/master/ansible/cilium-install.yml#L57
+# https://www.linuxtechi.com/install-kubernetes-on-ubuntu-22-04/
+
+# ansible .yml files define what tasks/operations to run
+---
+- hosts: all # run on the "all" hosts category from ansible-hosts.txt
+# become means be superuser
+  become: true
+  remote_user: ubuntu
+  tasks:
+  - name: Fix net.bridge.bridge-nf-call-iptables issue (1/2)
+    copy:
+      content: |
+        net.bridge.bridge-nf-call-ip6tables = 1
+        net.bridge.bridge-nf-call-iptables = 1
+      dest: /etc/sysctl.d/k8s.conf
+    register: fix
+
+  - name: Fix net.bridge.bridge-nf-call-iptables issue (2/2)
+    command: sysctl --system
+    when: fix.changed
+
+  - name: Set net.ipv4.ip_forward
+    ansible.posix.sysctl:
+      name: net.ipv4.ip_forward
+      value: '1'
+      sysctl_set: true
+      state: present
+      reload: true
+
+  - name: Add kernel modules for Kubernetes (1/2)
+    copy:
+      content: |
+        overlay
+        br_netfilter
+      dest: /etc/modules-load.d/containerd.conf
+    register: mod
+
+  - name: Add kernel modules for Kubernetes (2/2)
+    shell: "{{ item }}"
+    when: mod.changed
+    with_items:
+      - modprobe overlay
+      - modprobe br_netfilter
+
+  - name: Install packages that allow apt to be used over HTTPS
+    apt:
+      name: "{{ packages }}"
+      state: present
+      update_cache: yes
+    vars:
+      packages:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg2
+      - software-properties-common
+
+  - name: Add an apt signing key for Containerd.io
+    ansible.builtin.get_url:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      dest: /etc/apt/trusted.gpg.d/docker.asc
+      mode: '0644'
+#      force: true
+
+  - name: Add apt repository for stable version
+    ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/docker.asc] https://download.docker.com/linux/ubuntu jammy stable"
+        state: present
+
+  - name: Install containerd.io
+    apt: 
+      name: containerd.io
+      state: present
+      update_cache: yes
+  
+  - name: Verify containerd installed, enabled, and started
+    service:
+      name: containerd
+      state: started
+      enabled: yes
+      
+  - name: Remove swapfile from /etc/fstab
+    mount:
+      name: "{{ item }}"
+      fstype: swap
+      state: absent
+    with_items:
+      - swap
+      - none
+
+  - name: Disable swap
+    command: swapoff -a
+    when: ansible_swaptotal_mb >= 0
+
+#  - name: Add an apt signing key for Kubernetes
+#    ansible.builtin.get_url:
+#      url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+#      dest: /etc/apt/trusted.gpg.d/kubernetes-xenial.asc
+#      mode: '0644'
+#      force: true
+
+#  - name: Add apt repository for stable version
+#    ansible.builtin.apt_repository:
+#      repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/kubernetes-xenial.asc] https://apt.kubernetes.io/ kubernetes-xenial main"
+#      state: present
+
+  - name: Add an apt signing key for Kubernetes
+    apt_key:
+      url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+      state: present
+
+  - name: Adding apt repository for Kubernetes
+    apt_repository:
+      repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+      state: present
+      filename: kubernetes.list
+
+  - name: Install Kubernetes binaries
+    apt: 
+      name: "{{ packages }}"
+      state: present
+      update_cache: yes
+    vars:
+      packages:
+        # it is usually recommended to specify which version you want to install
+        - kubelet=1.26.2-00
+        - kubeadm=1.26.2-00
+        - kubectl=1.26.2-00
+        
+  - name: Hold kubernetes binary versions (prevent from being updated)
+    dpkg_selections:
+      name: "{{ item }}"
+      selection: hold
+    loop:
+      - kubelet
+      - kubeadm
+      - kubectl
+        
+# this has to do with nodes having different internal/external/mgmt IPs
+# {{ node_ip }} comes from vagrant, which I'm not using yet
+#  - name: Configure node ip - 
+#    lineinfile:
+#      path: /etc/default/kubelet
+#      line: KUBELET_EXTRA_ARGS=--node-ip={{ node_ip }}
+
+  - name: Restart kubelet
+    service:
+      name: kubelet
+      daemon_reload: yes
+      state: restarted
+     
+  - name: Reboot to apply swap disable
+    reboot:
+      reboot_timeout: 180 #allow 3 minutes for reboot to happen

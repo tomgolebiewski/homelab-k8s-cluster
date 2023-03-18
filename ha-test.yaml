@@ -1,0 +1,42 @@
+# ha-test.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ha-app
+  namespace: ha
+spec:
+  selector:
+    matchLabels:
+      name: ha-backend
+  template:
+    metadata:
+      labels:
+        name: ha-backend
+    spec:
+      containers:
+        - name: backend
+          image: homeassistant/home-assistant:stable
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8123
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: homeassistant
+  namespace: ha
+  labels:
+    name: homeassistant
+    kubernetes.io/name: homeassistant
+spec:
+  ports:
+    - name: homeassistant
+      protocol: TCP
+      port: 8123
+      targetPort: 8123
+      nodePort: 30438
+  selector:
+    name: ha-backend
+  type: NodePort
+  sessionAffinity: None
+

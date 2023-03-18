@@ -1,0 +1,48 @@
+- hosts: kube_agents, kube_storage
+  become: true
+  remote_user: ubuntu
+  
+  vars_files:
+    - ansible-vars.yml
+    
+  tasks:
+  - name: Ensure containerd is installed.
+    package:
+      name: containerd.io
+      state: present
+
+
+  - name: Ensure containerd is started and enabled at boot.
+    service:
+      name: containerd
+      state: started
+      enabled: true
+
+  - name: Ensure containerd config directory exists.
+    file:
+      path: /etc/containerd
+      state: directory
+    register: containerd_dir
+
+  - name: Configure containerd so that it starts using systemd as cgroup
+    shell: "{{ item }}"
+    with_items:
+      - containerd config default | tee /etc/containerd/config.toml >/dev/null 2>&1
+      - sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
+
+  - name: restart containerd
+    service:
+      name: containerd
+      daemon_reload: yes
+      state: restarted
+    
+  - name: read join command
+    debug: msg={{ lookup('file', join_command_location) }}
+    register: join_command_local
+    
+  - name: show join command
+    debug:
+      var: join_command_local.msg
+      
+  - name: join agents to cluster
+    command: "{{ join_command_local.msg }}"
