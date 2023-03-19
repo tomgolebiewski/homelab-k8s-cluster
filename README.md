@@ -48,7 +48,10 @@
    ~$: ansible-playbook -i ansible-hosts.txt 003-get-join-command.yml
    ~$: ansible-playbook -i ansible-hosts.txt 004-join-workers.yml
   ```   
-9. Wait a few minutes and verify nodes in your cluster.
-
+9. Wait a few minutes, SSH to your kube server and verify nodes state in your cluster.
+```bash
+   ~$: kubectl version --short
+   ~$: kubectl get nodes
+```
 10. Enjoy!
 
