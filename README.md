@@ -57,11 +57,13 @@
    ~$: kubectl version --short
    ~$: kubectl get nodes
 ```
-10. Enjoy!
+10. Test it
 ```bash
    ~$: kubectl create namespace ha
    ~$: nano ha-test.yaml # copy from repo ha-test.yaml
    ~$: kubectl apply ha-test.yaml -n ha # run first app for testing
 ```
   Set your browser http://<CLASTER_SERVER>:30438
+
+# Enjoy Home Assistant !
 
