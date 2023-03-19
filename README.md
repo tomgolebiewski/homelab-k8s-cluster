@@ -1,10 +1,10 @@
 # homelab-k8s-cluster in 10 steps
 
-1. Download the ISO image and install Proxmox VE on your hardware. In five minutes you'll be creating your first virtual machines and containers.
+1. Download, flash and install Proxmox VE on your hardware. In five minutes you'll be creating your first virtual machines and containers.
 
    https://www.proxmox.com/en/proxmox-ve/get-started
 
-2. Clone this repo to your machine.
+2. Clone this repo to your local machine.
 ```bash
    ~$: gitclone https://github.com/tomgolebiewski/homelab-k8s-cluster.git
 ```
