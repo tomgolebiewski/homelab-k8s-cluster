@@ -28,6 +28,7 @@
 ```bash
    ~$: cd terrafom
    ~$: nano main.tf # set password,numer of VMs, IP, vmid, etc  
+   ~$: ssh-keygen -t rsa -b 4096 -N "" -C "<USERNAME@$DOMAIN>" -m pem -f "PRIVATE_KEY" # generate, if you need new ssh-key
    ~$: nano vars.tf # change to your ssh-key
    ~$: cd ansible
    ~$: nano ansible-hosts.txt # set your network IP
