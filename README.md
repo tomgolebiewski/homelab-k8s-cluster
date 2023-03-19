@@ -12,7 +12,7 @@
 
    root@pve:~# sh cloudinit.sh
 
-4. Set up terraform user
+4. Set "Terraform_prov" user in Proxmox server.
 
 
 5. Instal Terraform and Ansible on your local machine.
