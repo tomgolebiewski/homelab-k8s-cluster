@@ -15,7 +15,7 @@
 4. Set "Terraform_prov" user in Proxmox server.
 
 
-5. Instal Terraform and Ansible on your local machine.
+5. Instal and config Terraform and Ansible on your local machine.
 
    https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
    https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
