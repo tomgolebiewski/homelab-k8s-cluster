@@ -71,7 +71,7 @@ Tested with:
 1. Proxmox VE 7.3
 2. Ubuntu 22.04 jammy-server-cloudimg-amd64.iso
 3. Containerd.io 1.6.18
-4. Kubeadm,Kubectl,Kubelet 1.26.2
+4. Kubeadm, Kubectl, Kubelet 1.26.2
 5. Terraform 1.4.2
 6. Ansible 2.14.3
 
