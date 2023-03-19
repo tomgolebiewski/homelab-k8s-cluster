@@ -27,9 +27,20 @@
 6. Set up config data in files for terraform and ansible.
 
 7. Create VM machines for your cluster witch terraform.
-
+```bash
+   ~$: cd terraform
+   ~$: terraform init
+   ~$: terraform plan
+   ~$: terraform apply
+```   
 8. Build Kubernestes cluster with ansible.
-
+```bash
+   ~$: cd ansible
+   ~$: ansible-playbook -i ansible-hosts.txt 001-install-kubernetes-dependencies.yml
+   ~$: ansible-playbook -i ansible-hosts.txt 002-init-cluster.yml
+   ~$: ansible-playbook -i ansible-hosts.txt 003-get-join-command.yml
+   ~$: ansible-playbook -i ansible-hosts.txt 004-join-workers.yml
+  ```   
 9. Wait a few minutes and verify nodes in your cluster.
 
 10. Enjoy!
