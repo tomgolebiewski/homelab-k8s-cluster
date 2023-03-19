@@ -27,11 +27,11 @@
 6. Set up config data in files for terraform and ansible.
 ```bash
    ~$: cd terrafom
-   ~$: nano main.tf # set password 
-   ~$: nano vars.tf # add ssh-key
+   ~$: nano main.tf # set password,numer of VMs, IP, vmid, etc  
+   ~$: nano vars.tf # change to your ssh-key
    ~$: cd ansible
-   ~$: nano ansible-hosts.txt # set network CIDR
-   
+   ~$: nano ansible-hosts.txt # set your network IP
+   ~$: nano ansible-vars.yml # change cluster ip cidr if you want
 ```
 7. Create VM machines for your cluster witch terraform.
 ```bash
