@@ -32,8 +32,8 @@
    ~$: ssh-keygen -t rsa -b 4096 -N "" -C "<USERNAME@$DOMAIN>" -m pem -f "<YOUR_KEY>" # generate, if you need new ssh-key
    ~$: nano vars.tf # change to your ssh-key
    ~$: cd ansible
-   ~$: nano ansible-hosts.txt # set your network IP
-   ~$: nano ansible-vars.yml # change cluster ip cidr if you want
+   ~$: nano ansible-hosts.txt # set your VMs IP
+   ~$: nano ansible-vars.yml # change internal cluster ip cidr if you need
 ```
 7. Create VM machines for your cluster witch terraform.
 ```bash
