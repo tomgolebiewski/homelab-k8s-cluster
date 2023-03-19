@@ -16,7 +16,8 @@
 4. Add "terraform_prov" user in Proxmox server.
 ```bash
    root@pve:~# pveum role add TerraformProv -privs "Datastore.AllocateSpace Datastore.Audit Pool.Allocate Sys.Audit VM.Allocate VM.Audit VM.Clone VM.Config.CDROM VM.Config.CPU VM.Config.Cloudinit VM.Config.Disk VM.Config.HWType VM.Config.Memory VM.Config.Network VM.Config.Options VM.Monitor VM.PowerMgmt"
-   root@pve:~# pveum user add terraform-prov@pve --password "your password"
+   root@pve:~# openssl rand -base64 24 # Create a random password with length 24, if you need
+   root@pve:~# pveum user add terraform-prov@pve --password "<YOUR_PASSWORD>"
    root@pve:~# pveum aclmod / -user terraform-prov@pve -role TerraformProv
 ```
 5. Instal and config Terraform and Ansible on your local machine.
@@ -28,7 +29,7 @@
 ```bash
    ~$: cd terrafom
    ~$: nano main.tf # set password,numer of VMs, IP, vmid, etc  
-   ~$: ssh-keygen -t rsa -b 4096 -N "" -C "<USERNAME@$DOMAIN>" -m pem -f "PRIVATE_KEY" # generate, if you need new ssh-key
+   ~$: ssh-keygen -t rsa -b 4096 -N "" -C "<USERNAME@$DOMAIN>" -m pem -f "<YOUR_KEY>" # generate, if you need new ssh-key
    ~$: nano vars.tf # change to your ssh-key
    ~$: cd ansible
    ~$: nano ansible-hosts.txt # set your network IP
