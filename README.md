@@ -1,4 +1,4 @@
-# homelab-k8s-cluster in 10 steps
+# homelab-k8s-cluster in 10 steps (step by step)
 
 1. Download, flash and install Proxmox VE on your hardware. In five minutes you'll be creating your first virtual machines and containers.
 
@@ -25,7 +25,14 @@
    https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
 
 6. Set up config data in files for terraform and ansible.
-
+```bash
+   ~$: cd terrafom
+   ~$: nano main.tf # set password 
+   ~$: nano vars.tf # add ssh-key
+   ~$: cd ansible
+   ~$: nano ansible-hosts.txt # set network CIDR
+   
+```
 7. Create VM machines for your cluster witch terraform.
 ```bash
    ~$: cd terraform
