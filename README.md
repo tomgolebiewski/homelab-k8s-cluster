@@ -6,7 +6,7 @@
 
 2. Copy this repo.
 
-   gitclone 
+   gitclone https://github.com/tomgolebiewski/homelab-k8s-cluster.git
 
 3. Create a cloud-init image and convert it to a VM template.
 
