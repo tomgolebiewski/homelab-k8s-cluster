@@ -4,7 +4,7 @@
 
    https://www.proxmox.com/en/proxmox-ve/get-started
 
-2. Copy this repo.
+2. Clone this repo.
 
    gitclone https://github.com/tomgolebiewski/homelab-k8s-cluster.git
 
