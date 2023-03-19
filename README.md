@@ -28,7 +28,7 @@
 6. Set up config data in files for terraform and ansible.
 ```bash
    ~$: cd terrafom
-   ~$: nano main.tf # set password,numer of VMs, IP, vmid, etc  
+   ~$: nano main.tf # set Proxmox user password,IP, you can customize your VMs (IP, CPU, RAM, storage, vmid, etc)  
    ~$: ssh-keygen -t rsa -b 4096 -N "" -C "<USERNAME@$DOMAIN>" -m pem -f "<YOUR_KEY>" # generate, if you need new ssh-key
    ~$: nano vars.tf # change to your ssh-key
    ~$: cd ansible
