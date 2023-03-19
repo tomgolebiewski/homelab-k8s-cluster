@@ -1,1 +1,1 @@
-# homelab-k8s-cluster
+# homelab-k8s-cluster in 10 minutes
