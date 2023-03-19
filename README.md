@@ -61,7 +61,7 @@
 ```bash
    ~$: kubectl create namespace ha
    ~$: nano ha-test.yaml # copy from repo ha-test.yaml
-   ~$: kubectl apply ha-test.yaml -n ha # run first app for testing
+   ~$: kubectl apply -f ha-test.yaml -n ha # run first app for testing
 ```
   Set your browser http://<CLUSTER_SERVER>:30438
 
