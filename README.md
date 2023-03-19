@@ -6,7 +6,7 @@
 
 2. Clone this repo to your machine.
 ```bash
-   gitclone https://github.com/tomgolebiewski/homelab-k8s-cluster.git
+   ~$: gitclone https://github.com/tomgolebiewski/homelab-k8s-cluster.git
 ```
 3. SSH to your Proxmox server, copy cloudinit.sh script to create a cloud-init image and convert it to a VM template.
 
