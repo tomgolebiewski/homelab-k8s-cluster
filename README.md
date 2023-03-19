@@ -20,11 +20,11 @@
    https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
    https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
 
-6. Set up config data.
+6. Set up config data in files for terraform and ansible.
 
-7. Create VM machines for your cluster witch Terraform.
+7. Create VM machines for your cluster witch terraform.
 
-8. Build Kubernestes cluster with Ansible.
+8. Build Kubernestes cluster with ansible.
 
 9. Wait a few minutes and verify nodes in your cluster.
 
