@@ -65,5 +65,5 @@
 ```
   Set your browser http://<CLASTER_SERVER>:30438
 
-# Enjoy Home Assistant !
+## Enjoy Home Assistant in Kubernetes cluster!
 
