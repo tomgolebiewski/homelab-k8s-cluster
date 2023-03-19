@@ -63,7 +63,18 @@
    ~$: nano ha-test.yaml # copy from repo ha-test.yaml
    ~$: kubectl apply -f ha-test.yaml -n ha # run first app for testing
 ```
-  Set your browser http://<CLUSTER_SERVER>:30438
+  Set your browser http://<CLUSTER_IP>:30438
 
 ## Enjoy Home Assistant in Kubernetes cluster!
+
+Tested with:
+1. Proxmox VE 7.3
+2. Ubuntu-server cloudimage 22.04
+3. Containerd.io 1.6.18
+4. Kubeadm,Kubectl,Kubelet 1.26.2
+5. Terraform 1.4.2
+6. Ansible 2.14.3
+
+
+
 
