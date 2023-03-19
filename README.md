@@ -11,7 +11,7 @@
 3. SSH to your Proxmox server, copy cloudinit.sh script to create a cloud-init image and convert it to a VM template.
 
 ```bash
-   root@pve:~# sh cloudinit.sh
+   sh cloudinit.sh
 ```
 4. Add "terraform_prov" user in Proxmox server.
 ```bash
