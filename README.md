@@ -45,6 +45,8 @@
 8. Build Kubernestes cluster with ansible.
 ```bash
    ~$: cd ansible
+   ~$: ansible -i ansible-hosts.txt  all -u ubuntu -m ping # 
+   ~$: ssh ubuntu@<VM IPs> # for every VM, verify and write ssh-key
    ~$: ansible-playbook -i ansible-hosts.txt 001-install-kubernetes-dependencies.yml
    ~$: ansible-playbook -i ansible-hosts.txt 002-init-cluster.yml
    ~$: ansible-playbook -i ansible-hosts.txt 003-get-join-command.yml
