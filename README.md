@@ -35,7 +35,7 @@
    ~$: nano ansible-hosts.txt # set your VMs IP
    ~$: nano ansible-vars.yml # change internal cluster ip cidr if you need
 ```
-7. Create VM machines for your cluster witch terraform.
+7. Create VM machines for your cluster with terraform.
 ```bash
    ~$: cd terraform
    ~$: terraform init
