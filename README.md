@@ -8,4 +8,9 @@
 
    root@pve:~# sh cloudinit.sh
 
-3. 
+3. Instal Terraform and Ansible on your local machine
+
+   https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
+   https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
+
+4. 
