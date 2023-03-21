@@ -39,7 +39,7 @@
   - name: Initialize Kubernetes cluster
     command: "kubeadm init --pod-network-cidr {{ pod_cidr }}"
     args:
-      creates: /etc/kubernetes/admin.conf # skip this task if the file already exists
+      creates: /etc/kubernetes/admin.conf  # skip this task if the file already exists
     register: kube_init
     
   - name: Show kube init info
