@@ -6,19 +6,19 @@
 
 2. Clone this repo to your local machine.
 ```bash
-   ~$: gitclone https://github.com/tomgolebiewski/homelab-k8s-cluster.git
+   git clone https://github.com/tomgolebiewski/homelab-k8s-cluster.git
 ```
 3. SSH to your Proxmox server, copy cloudinit.sh script to create a cloud-init image and convert it to a VM template.
 
 ```bash
-   root@pve:~#sh cloudinit.sh
+   sh cloudinit.sh
 ```
 4. Add "terraform_prov" user in Proxmox server.
 ```bash
-   root@pve:~# pveum role add TerraformProv -privs "Datastore.AllocateSpace Datastore.Audit Pool.Allocate Sys.Audit VM.Allocate VM.Audit VM.Clone VM.Config.CDROM VM.Config.CPU VM.Config.Cloudinit VM.Config.Disk VM.Config.HWType VM.Config.Memory VM.Config.Network VM.Config.Options VM.Monitor VM.PowerMgmt"
-   root@pve:~# openssl rand -base64 24 # Create a random password with length 24, if you need
-   root@pve:~# pveum user add terraform-prov@pve --password "<YOUR_PASSWORD>"
-   root@pve:~# pveum aclmod / -user terraform-prov@pve -role TerraformProv
+   pveum role add TerraformProv -privs "Datastore.AllocateSpace Datastore.Audit Pool.Allocate Sys.Audit VM.Allocate VM.Audit VM.Clone VM.Config.CDROM VM.Config.CPU VM.Config.Cloudinit VM.Config.Disk VM.Config.HWType VM.Config.Memory VM.Config.Network VM.Config.Options VM.Monitor VM.PowerMgmt"
+   openssl rand -base64 24 # Create a random password with length 24, if you need
+   pveum user add terraform-prov@pve --password "<YOUR_PASSWORD>"
+   pveum aclmod / -user terraform-prov@pve -role TerraformProv
 ```
 5. Instal and config Terraform and Ansible on your local machine.
 
@@ -27,41 +27,41 @@
 
 6. Set up config data in files for terraform and ansible.
 ```bash
-   ~$: cd terrafom
-   ~$: nano main.tf # set Proxmox user password,IP, you can customize your VMs (IP, CPU, RAM, storage, vmid, etc)  
-   ~$: ssh-keygen -t rsa -b 4096 -N "" -C "<USERNAME@$DOMAIN>" -m pem -f "<YOUR_KEY>" # generate, if you need new ssh-key
-   ~$: nano vars.tf # change to your ssh-key
-   ~$: cd ansible
-   ~$: nano ansible-hosts.txt # set your VMs IP
-   ~$: nano ansible-vars.yml # change internal cluster ip cidr if you need
+   cd terrafom
+   nano main.tf # set Proxmox user password,IP, you can customize your VMs (IP, CPU, RAM, storage, vmid, etc)  
+   ssh-keygen -t rsa -b 4096 -N "" -C "<USERNAME@$DOMAIN>" -m pem -f "<YOUR_KEY>" # generate, if you need new ssh-key
+   nano vars.tf # change to your ssh-key
+   cd ansible
+   nano ansible-hosts.txt # set your VMs IP
+   nano ansible-vars.yml # change internal cluster ip cidr if you need
 ```
 7. Create VM machines for your cluster with terraform.
 ```bash
-   ~$: cd terraform
-   ~$: terraform init
-   ~$: terraform plan
-   ~$: terraform apply
+   cd terraform
+   terraform init
+   terraform plan
+   terraform apply
 ```   
 8. Build Kubernestes cluster with ansible.
 ```bash
-   ~$: cd ansible
-   ~$: ssh ubuntu@<VM IPs> # for every VM, verify and write ssh-key
-   ~$: ansible -i ansible-hosts.txt  all -u ubuntu -m ping # 
-   ~$: ansible-playbook -i ansible-hosts.txt 001-install-kubernetes-dependencies.yml
-   ~$: ansible-playbook -i ansible-hosts.txt 002-init-cluster.yml
-   ~$: ansible-playbook -i ansible-hosts.txt 003-get-join-command.yml
-   ~$: ansible-playbook -i ansible-hosts.txt 004-join-workers.yml
-  ```   
+   cd ansible
+   ssh ubuntu@<VM IPs> # for every VM, verify and write ssh-key
+   ansible -i ansible-hosts.txt  all -u ubuntu -m ping # 
+   ansible-playbook -i ansible-hosts.txt 001-install-kubernetes-dependencies.yml
+   ansible-playbook -i ansible-hosts.txt 002-init-cluster.yml
+   ansible-playbook -i ansible-hosts.txt 003-get-join-command.yml
+   ansible-playbook -i ansible-hosts.txt 004-join-workers.yml
+```   
 9. Wait a few minutes, SSH to your kube server and verify nodes state in your cluster.
 ```bash
-   ~$: kubectl version --short
-   ~$: kubectl get nodes
+   kubectl version --short
+   kubectl get nodes
 ```
 10. Test it
 ```bash
-   ~$: kubectl create namespace ha
-   ~$: nano ha-test.yaml # copy from repo ha-test.yaml
-   ~$: kubectl apply -f ha-test.yaml -n ha # run first app for testing
+   kubectl create namespace ha
+   nano ha-test.yaml # copy from repo ha-test.yaml
+   kubectl apply -f ha-test.yaml -n ha # run first app for testing
 ```
   Set your browser http://<CLUSTER_IP>:30438
 
