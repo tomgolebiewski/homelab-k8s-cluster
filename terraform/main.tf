@@ -21,8 +21,6 @@ resource "proxmox_vm_qemu" "kube-server" {
   name = "kube-server-0${count.index + 1}"
   desc = "A test for using terraform and cloudinit"
   target_node = "pve"
-  # thanks to Brian on YouTube for the vmid tip
-  # http://www.youtube.com/channel/UCTbqi6o_0lwdekcp-D6xmWw
   vmid = "40${count.index + 1}"
 
   clone = "jammy-server-cloudinit-template"
