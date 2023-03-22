@@ -65,7 +65,7 @@
 ```
   Set your browser http://<CLUSTER_IP>:30438
 
-## Enjoy Home Assistant in Kubernetes cluster!
+## Enjoy testing Home Assistant in Kubernetes cluster!
 
 Tested with:
 1. Proxmox VE 7.3
