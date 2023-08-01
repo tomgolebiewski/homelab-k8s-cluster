@@ -103,3 +103,4 @@
   - name: Show test result
     debug:
       var: fluxcd.stderr_lines
+
