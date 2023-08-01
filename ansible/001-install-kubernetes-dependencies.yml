@@ -56,13 +56,14 @@
       - curl
       - gnupg2
       - software-properties-common
+      - nfs-common
 
   - name: Add an apt signing key for Containerd.io
     ansible.builtin.get_url:
       url: https://download.docker.com/linux/ubuntu/gpg
       dest: /etc/apt/trusted.gpg.d/docker.asc
       mode: '0644'
-    #  force: true
+#      force: true
 
   - name: Add apt repository for stable version
     ansible.builtin.apt_repository:
@@ -125,9 +126,9 @@
     vars:
       packages:
         # it is usually recommended to specify which version you want to install
-        - kubelet=1.26.2-00
-        - kubeadm=1.26.2-00
-        - kubectl=1.26.2-00
+        - kubelet=1.27.4-00
+        - kubeadm=1.27.4-00
+        - kubectl=1.27.4-00
         
   - name: Hold kubernetes binary versions (prevent from being updated)
     dpkg_selections:
@@ -153,4 +154,4 @@
      
   - name: Reboot to apply swap disable
     reboot:
-      reboot_timeout: 180  # allow 3 minutes for reboot to happen
+      reboot_timeout: 180 #allow 3 minutes for reboot to happen

@@ -45,12 +45,7 @@
 8. Build Kubernestes cluster with ansible.
 ```bash
    cd ansible
-   ssh ubuntu@<VM IPs> # for every VM, verify and write ssh-key
-   ansible -i ansible-hosts.txt  all -u ubuntu -m ping # 
-   ansible-playbook -i ansible-hosts.txt 001-install-kubernetes-dependencies.yml
-   ansible-playbook -i ansible-hosts.txt 002-init-cluster.yml
-   ansible-playbook -i ansible-hosts.txt 003-get-join-command.yml
-   ansible-playbook -i ansible-hosts.txt 004-join-workers.yml
+   sh run_kube.sh
 ```   
 9. Wait a few minutes, SSH to your kube server and verify nodes state in your cluster.
 ```bash
@@ -68,10 +63,10 @@
 ## Enjoy testing Home Assistant in Kubernetes cluster!
 
 Tested with:
-1. Proxmox VE 7.3
+1. Proxmox VE 7.4
 2. Ubuntu 22.04 jammy-server-cloudimg-amd64.iso
 3. Containerd.io 1.6.18
-4. Kubeadm, Kubectl, Kubelet 1.26.2
+4. Kubeadm, Kubectl, Kubelet 1.27.4
 5. Terraform 1.4.2
 6. Ansible 2.14.3
 

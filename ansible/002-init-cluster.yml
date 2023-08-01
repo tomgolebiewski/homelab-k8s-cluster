@@ -39,7 +39,7 @@
   - name: Initialize Kubernetes cluster
     command: "kubeadm init --pod-network-cidr {{ pod_cidr }}"
     args:
-      creates: /etc/kubernetes/admin.conf  # skip this task if the file already exists
+      creates: /etc/kubernetes/admin.conf # skip this task if the file already exists
     register: kube_init
     
   - name: Show kube init info
@@ -77,9 +77,29 @@
     
   - name: Get Dashboard
     get_url:
-      url: https://raw.githubusercontent.com/kubernetes/dashboard/v2.5.0/aio/deploy/recommended.yaml
+      url: https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
       dest: "{{ home_dir }}/dashboard.yaml"
     
   - name: Apply Dashboard
     become: no
     command: kubectl apply -f "{{ home_dir }}/dashboard.yaml"
+
+  - name: Get FluxCD installer
+    ansible.builtin.uri:
+      url: https://fluxcd.io/install.sh
+      return_content: yes
+    register: fluxcd_installer
+
+  - name: Run FluxCD installer
+    ansible.builtin.shell:
+      cmd: bash
+      stdin: "{{ fluxcd_installer.content }}"
+
+  - name: Test Kubernetes cluster prerequisites
+    become: no
+    command: "flux check --pre"
+    register: fluxcd
+
+  - name: Show test result
+    debug:
+      var: fluxcd.stderr_lines
